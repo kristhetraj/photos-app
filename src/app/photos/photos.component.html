@@ -1,5 +1,10 @@
 <h1>Photos</h1>
 
-<ng-container *ngFor="let image of images"
+<ng-container *ngFor="let image of photos"
   ><img [src]="image" alt="Place image title" (click)="savePhoto(image)"
 /></ng-container>
+
+<br />
+<br />
+<br />
+<a (click)="loadPhotos()" routerLinkActive="active">More</a>

@@ -8,49 +8,25 @@ import { PhotoService } from '../photo.service';
   styleUrls: ['./photos.component.css'],
 })
 export class PhotosComponent implements OnInit {
-  images: any[] = [];
+  photos: any[] = [];
 
   constructor(private photoService: PhotoService, private router: Router) {}
 
   ngOnInit() {
+    this.photos = this.photoService.photos;
+    if (this.photos.length === 0) {
+      this.loadPhotos();
+    }
+  }
+
+  loadPhotos() {
     for (let i = 0; i < 5; i++) {
-      this.loadPhoto();
+      this.photoService.getPhoto();
     }
   }
 
   savePhoto(photo: any) {
     this.photoService.savePhoto(photo);
     this.router.navigate(['photo']);
-  }
-
-  loadPhoto() {
-    this.photoService.getPhotos().subscribe((blob) => {
-      console.log('blob', blob);
-      this.getImage(blob);
-    });
-  }
-
-  async getImage(blob: any) {
-    this.images.push(await this.createImageFromBlob(blob));
-    // console.log('this.image', this.image);
-  }
-
-  createImageFromBlob(image: Blob): Promise<string | ArrayBuffer> {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.addEventListener(
-        'load',
-        () => {
-          resolve(reader.result);
-        },
-        false
-      );
-
-      if (image) {
-        reader.readAsDataURL(image);
-      } else {
-        reject();
-      }
-    });
   }
 }
