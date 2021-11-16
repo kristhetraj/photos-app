@@ -1,0 +1,5 @@
+<h1>Photos</h1>
+
+<ng-container *ngFor="let image of images"
+  ><img [src]="image" alt="Place image title" (click)="savePhoto(image)"
+/></ng-container>
